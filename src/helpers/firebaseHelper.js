@@ -22,6 +22,5 @@ export const getSuperUsers = () => {
     return susers;
 }
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-export {db};
+export const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
