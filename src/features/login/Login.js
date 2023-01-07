@@ -25,6 +25,7 @@ const Login = () => {
             .then((response) => {
               sessionStorage.setItem('Auth Token', response._tokenResponse.refreshToken);
               dispatch(setEmailInStore(email));
+              M.toast({html: 'Successfully Logged In'});
               navigate('/')
             })
             .catch((error) => {

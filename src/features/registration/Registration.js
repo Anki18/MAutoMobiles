@@ -48,6 +48,7 @@ export default function Registration() {
                         lname: lname,
                         email: email
                       });
+                    M.toast({html: 'Registered Successfully'});
                     sessionStorage.setItem('Auth Token', response._tokenResponse.refreshToken);
                     navigate('/login');
                 }).catch((error) => {
