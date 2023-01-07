@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 //import {registerUser} from './RegistrationService';
-import { collection, doc, setDoc } from "firebase/firestore"; 
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
+import { collection, doc, setDoc } from "firebase/firestore";
+import M from "materialize-css/dist/js/materialize.min.js" 
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from "react-router-dom";
-import { db } from '../../helpers/firebaseHelper'
+import { db } from '../../helpers/firebaseHelper';
 
 
 export default function Registration() {
@@ -32,25 +33,29 @@ export default function Registration() {
 
     const  handleOnSubmit = (e) => {
         e.preventDefault();
-        if (password != cpassword) {
+        if (password !== cpassword) {
+            M.toast({html: 'password and confirm password did not match'})
             alert("password and confirm password did not match");
+        } else if(!fname || !lname || !email || !password) {
+            M.toast({html: 'enter all the details'});
         } else {
             const authentication = getAuth();
             createUserWithEmailAndPassword(authentication, email, password)
                 .then(async (response) => {
-                    const user = response.user
                     console.log(response);
                     await setDoc(doc(usersRef, email), {
                         fname: fname,
                         lname: lname,
                         email: email
                       });
+                    M.toast({html: 'Registered Successfully'});
                     sessionStorage.setItem('Auth Token', response._tokenResponse.refreshToken);
-                    navigate('/');
+                    navigate('/login');
                 }).catch((error) => {
                     const errorCode = error.code;
                     const errorMessage = error.message;
                     console.log(errorCode, errorMessage);
+                    M.toast({html: errorMessage});
                   });
         }
     }
